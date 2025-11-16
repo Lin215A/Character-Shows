@@ -1,16 +1,21 @@
-function resizeCanvas() {
-    const content = document.querySelector('.page-scale-content');
+const getResizPageRate = () => {
+    const baseWidth = 960;   // 你的画布宽度
+    const baseHeight = 540;  // 你的画布高度
 
-    const designWidth = 1200; // 你设计的宽度
-    const designHeight = 800; // 你设计的高度
-
-    const scale = Math.min(
-        window.innerWidth / designWidth,
-        window.innerHeight / designHeight
+    const rate = Math.min(
+        window.innerWidth / baseWidth,
+        window.innerHeight / baseHeight
     );
 
-    content.style.transform = `translate(-50%, -50%) scale(${scale})`;
-}
+    const body = document.body;
 
-window.addEventListener('load', resizeCanvas);
-window.addEventListener('resize', resizeCanvas);
+    body.style.width = baseWidth + 'px';
+    body.style.height = baseHeight + 'px';
+    body.style.position = 'absolute';
+    body.style.left = (window.innerWidth - baseWidth * rate) / 2 + 'px';
+    body.style.top = (window.innerHeight - baseHeight * rate) / 2 + 'px';
+    body.style.transform = `scale(${rate})`;
+    body.style.transformOrigin = 'center center';
+};
+window.addEventListener('DOMContentLoaded', getResizPageRate);
+window.addEventListener('resize', getResizPageRate);
