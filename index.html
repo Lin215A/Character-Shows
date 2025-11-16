@@ -150,6 +150,22 @@
             transform: scale(1.1);
         }
 
+        .page-scale-wrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.page-scale-content {
+    width: 1200px; /* 你的设计稿宽度 */
+    height: 800px; /* 你的设计稿高度 */
+    transform-origin: top left;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
         /* 右侧图片区域 */
         .news-banner {
             flex: 1;
@@ -449,6 +465,11 @@
     </style>
 </head>
 <body>
+    <div class="page-scale-wrapper">
+    <div class="page-scale-content">
+        <!-- 你的左边 + 右边内容 -->
+    </div>
+</div>
     <div class="container">
         <!-- 垂直标语 -->
         <div class="vertical-slogan">I want to sleep</div>
