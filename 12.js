@@ -38,14 +38,28 @@ window.addEventListener('resize', () => {
 
 function switchNews(index) {
     const data = newsData[index];
+    if (!data) return;
 
+    // 左侧文字更新
+    document.getElementById("dateText").textContent = data.date;
+    document.getElementById("yearText").textContent = data.year;
+    document.getElementById("newsTitle").textContent = data.title;
+    document.getElementById("newsDesc").textContent = data.desc;
+
+    // 右侧图片更新
     document.getElementById("mainImage").src = data.image;
     document.getElementById("bgImage").src = data.image;
+
+    // 图片上的文字
     document.getElementById("bannerText").innerText = data.text;
 
-    // ⭐ 设置链接并保证新开一页
-    const link = document.getElementById("bannerLink");
-    link.href = data.link;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    // read more 链接更新
+    const readMore = document.querySelector(".read-more");
+    readMore.href = data.link;
+
+    // 右边大图点击链接更新
+    const banner = document.getElementById("bannerlink");
+    banner.href = data.link;
+    banner.target = "_blank";
+    banner.rel = "noopener noreferrer";
 }
