@@ -11,24 +11,33 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
             background: #f8f9fb;
             color: #242933;
             overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
-            padding: 40px 60px;
+            padding: 20px 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 60px;
+            gap: 50px;
             position: relative;
-            min-height: 100vh;
         }
 
         /* 左侧文字区域 */
@@ -268,8 +277,8 @@
         /* 响应式 */
         @media (max-width: 1400px) {
             .container {
-                padding: 40px 50px;
-                gap: 50px;
+                padding: 20px 35px;
+                gap: 45px;
             }
             
             .news-content {
@@ -294,8 +303,8 @@
 
         @media (max-width: 1200px) {
             .container {
-                padding: 30px 40px;
-                gap: 40px;
+                padding: 20px 30px;
+                gap: 35px;
             }
             
             .news-content {
@@ -328,7 +337,7 @@
         
         @media (max-width: 1000px) {
             .container {
-                padding: 30px 35px;
+                padding: 20px 25px;
                 gap: 30px;
             }
             
@@ -372,7 +381,7 @@
         
         @media (max-width: 800px) {
             .container {
-                padding: 25px 30px;
+                padding: 20px 20px;
                 gap: 25px;
             }
             
@@ -447,7 +456,7 @@
             <div class="news-title" id="newsTitle">MsQadri和Mr.Stephens</div>
 
             <div class="news-desc" id="newsDesc">
-                三月十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...
+                三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...
             </div>
 
             <a href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C" class="read-more">read more</a>
@@ -482,7 +491,7 @@
                 date: '04/01',
                 year: '2023',
                 title: 'MsQadri和Mr.Stephens',
-                desc: '三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...',
+                desc: '三月三十, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...',
                 image: './img/Ms.Qadri-and-Mr.Stephens.png',
                 text: 'zzz',
                 link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C'
