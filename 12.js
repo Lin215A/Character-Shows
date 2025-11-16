@@ -35,3 +35,17 @@ window.addEventListener('resize', () => {
     clearTimeout(window.resizeTimer);
     window.resizeTimer = setTimeout(getResizPageRate, 100);
 });
+
+function switchNews(index) {
+    const data = newsData[index];
+
+    document.getElementById("mainImage").src = data.image;
+    document.getElementById("bgImage").src = data.image;
+    document.getElementById("bannerText").innerText = data.text;
+
+    // ⭐ 设置链接并保证新开一页
+    const link = document.getElementById("bannerLink");
+    link.href = data.link;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+}
