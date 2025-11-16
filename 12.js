@@ -1,26 +1,16 @@
-const getResizPageRate = () => {
-    const base = window.ontouchstart === undefined ? 1200 : 800;
+function resizeCanvas() {
+    const content = document.querySelector('.page-scale-content');
 
-    const rate = Math.min(window.innerWidth / base, window.innerHeight / 1);
-    
-    const body = document.getElementsByTagName('body')[0];
+    const designWidth = 1200; // 你设计的宽度
+    const designHeight = 800; // 你设计的高度
 
-    body.style.width = window.innerWidth / rate + 'px';
-    body.style.height = window.innerHeight / rate + 'px';
-    body.style.position = 'absolute';
-    body.style.left = (window.innerWidth - window.innerWidth / rate) / 2 + 'px';
-    body.style.top = (window.innerHeight - window.innerHeight / rate) / 2 + 'px';
-    body.style.transform = `scale(${rate})`;
-    body.style.transformOrigin = 'center center';
-    body.style.transition = '0.5s transform';
+    const scale = Math.min(
+        window.innerWidth / designWidth,
+        window.innerHeight / designHeight
+    );
+
+    content.style.transform = `translate(-50%, -50%) scale(${scale})`;
 }
 
-// 页面加载时执行
-window.addEventListener('DOMContentLoaded', () => {
-    getResizPageRate();
-});
-
-// 窗口大小改变时重新计算
-window.addEventListener('resize', () => {
-    getResizPageRate();
-});
+window.addEventListener('load', resizeCanvas);
+window.addEventListener('resize', resizeCanvas);
