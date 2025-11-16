@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻动态 - miHoYo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+            background: #f8f9fb;
+            color: #242933;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 80px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 60px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 左侧文字区域 */
+        .news-content {
+            flex: 0 0 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .news-date {
+            margin-bottom: 40px;
+            transition: opacity 0.5s;
+        }
+
+        .news-date .date {
+            font-size: 80px;
+            font-weight: 300;
+            color: #dee1e6;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .news-date .year {
+            font-size: 24px;
+            color: #dee1e6;
+            font-weight: 300;
+        }
+
+        .news-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #242933;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            cursor: pointer;
+            transition: color 0.3s, opacity 0.5s;
+        }
+
+        .news-title:hover {
+            color: #3778e5;
+        }
+
+        .news-desc {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #676b73;
+            margin-bottom: 30px;
+            height: 120px;
+            overflow: hidden;
+            transition: opacity 0.5s;
+        }
+        
+        .news-content.fade-out .news-date,
+        .news-content.fade-out .news-title,
+        .news-content.fade-out .news-desc {
+            opacity: 0;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #3778e5;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .read-more::after {
+            content: '→→→';
+            font-size: 10px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #c9d0d8;
+            background: #f8f9fb;
+            color: #dee1e6;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            color: #676b73;
+            border-color: #676b73;
+            transform: scale(1.1);
+        }
+
+        /* 右侧图片区域 */
+        .news-banner {
+            flex: 1;
+            position: relative;
+            height: 500px;
+            max-width: 800px;
+            min-width: 0;
+        }
+
+        /* 背景虚化图片层 */
+        .banner-bg {
+            position: absolute;
+            right: 0;
+            bottom: -80px;
+            width: 620px;
+            height: 672px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .banner-bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px) brightness(1.1);
+            opacity: 0.8;
+            transform: scale(1.15);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        /* 斜线装饰层 - 从右上往左下（-45度） */
+        .banner-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                -45deg,
+                transparent,
+                transparent 0 4px,
+                rgb(0, 0, 0, 0.7) 6px
+            );
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+        
+    
+
+        /* 主图 */
+        .banner-main {
+            position: relative;
+            z-index: 3;
+            width: 620px;
+            height: 500px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .banner-main:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 图片上的文字覆盖 */
+        .banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4;
+            color: white;
+            font-size: 56px;
+            font-weight: bold;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
+            white-space: nowrap;
+            letter-spacing: 4px;
+            transition: opacity 0.5s;
+        }
+        
+        .banner-main.fade-out .banner-text,
+        .banner-main.fade-out img {
+            opacity: 0;
+        }
+        
+        .banner-bg.fade-out .banner-bg-img {
+            opacity: 0;
+        }
+
+        /* 垂直标语 */
+        .vertical-slogan {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 12px;
+            color: #dee1e6;
+            letter-spacing: 8px;
+            white-space: nowrap;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 1000px) {
+            .vertical-slogan {
+                left: -60px;
+                font-size: 10px;
+                letter-spacing: 6px;
+            }
+        }
+        
+        @media (max-width: 800px) {
+            .vertical-slogan {
+                left: -50px;
+                font-size: 9px;
+                letter-spacing: 4px;
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 1400px) {
+            .container {
+                padding: 60px 60px;
+                gap: 40px;
+            }
+            
+            .news-content {
+                flex: 0 0 400px;
+            }
+            
+            .news-banner {
+                max-width: 600px;
+                height: 400px;
+            }
+            
+            .banner-main {
+                width: 500px;
+                height: 400px;
+            }
+            
+            .banner-bg {
+                width: 500px;
+                height: 540px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                padding: 40px 40px;
+                gap: 30px;
+            }
+            
+            .news-content {
+                flex: 0 0 350px;
+            }
+            
+            .news-date .date {
+                font-size: 60px;
+            }
+            
+            .news-title {
+                font-size: 24px;
+            }
+            
+            .news-banner {
+                max-width: 500px;
+                height: 360px;
+            }
+            
+            .banner-main {
+                width: 450px;
+                height: 360px;
+            }
+            
+            .banner-bg {
+                width: 450px;
+                height: 490px;
+            }
+        }
+        
+        @media (max-width: 1000px) {
+            .container {
+                padding: 30px 30px;
+                gap: 20px;
+            }
+            
+            .news-content {
+                flex: 0 0 300px;
+            }
+            
+            .news-date .date {
+                font-size: 50px;
+            }
+            
+            .news-title {
+                font-size: 20px;
+            }
+            
+            .news-desc {
+                font-size: 12px;
+                height: 100px;
+            }
+            
+            .news-banner {
+                max-width: 400px;
+                height: 300px;
+            }
+            
+            .banner-main {
+                width: 380px;
+                height: 300px;
+            }
+            
+            .banner-bg {
+                width: 380px;
+                height: 410px;
+                bottom: -60px;
+            }
+            
+            .banner-text {
+                font-size: 40px;
+            }
+        }
+        
+        @media (max-width: 800px) {
+            .container {
+                padding: 20px 20px;
+                gap: 15px;
+            }
+            
+            .news-content {
+                flex: 0 0 250px;
+            }
+            
+            .news-date .date {
+                font-size: 40px;
+            }
+            
+            .news-date .year {
+                font-size: 18px;
+            }
+            
+            .news-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .news-desc {
+                font-size: 11px;
+                height: 90px;
+                margin-bottom: 20px;
+            }
+            
+            .read-more {
+                font-size: 10px;
+                margin-bottom: 30px;
+            }
+            
+            .page-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .news-banner {
+                max-width: 350px;
+                height: 260px;
+            }
+            
+            .banner-main {
+                width: 320px;
+                height: 260px;
+            }
+            
+            .banner-bg {
+                width: 320px;
+                height: 350px;
+                bottom: -50px;
+            }
+            
+            .banner-text {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 垂直标语 -->
+        <div class="vertical-slogan">I want to sleep</div>
+
+        <!-- 左侧文字区域 -->
+        <div class="news-content" id="newsContent">
+            <div class="news-date" id="newsDate">
+                <div class="date" id="dateText">04/01</div>
+                <div class="year" id="yearText">2023</div>
+            </div>
+
+            <div class="news-title" id="newsTitle">MsQadri和Mr.Stephens</div>
+
+            <div class="news-desc" id="newsDesc">
+                三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...
+            </div>
+
+            <a href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C" class="read-more">read more</a>
+
+            <!-- 分页 -->
+            <div class="pagination">
+                <div class="page-btn active" data-page="0">1</div>
+                <div class="page-btn" data-page="1">2</div>
+                <div class="page-btn" data-page="2">3</div>
+            </div>
+        </div>
+
+        <!-- 右侧图片区域 -->
+        <div class="news-banner">
+            <!-- 背景虚化图片层 -->
+            <div class="banner-bg">
+                <img src="img/Ms.Qadri-and-Mr.Stephens.png" alt="背景" class="banner-bg-img" id="bgImage">
+            </div>
+
+            <!-- 主图 -->
+            <div class="banner-main" id="bannerMain">
+                <img src="img/Ms.Qadri-and-Mr.Stephens.png" alt="新闻图片" id="mainImage">
+                <div class="banner-text" id="bannerText">zzz</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 新闻数据
+        const newsData = [
+            {
+                date: '04/01',
+                year: '2023',
+                title: 'MsQadri和Mr.Stephens',
+                desc: '三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...',
+                image: './img/Ms.Qadri-and-Mr.Stephens.png',
+                text: 'zzz',
+                link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C'
+            },
+            {
+                date: '04/20',
+                year: '2023',
+                title: '张老师的独家采访',
+                desc: '今天我采访了一位受到学生们热爱的化学老师。虽然他仅来到我们学校三年，但他已经在学生中建立了很好的声誉。他的教学方式非常有趣，让学生们喜欢学习化学，其中包括我自己。在这次的采访中，张老师分享了关于他的经历，让我们了解更多关于张老师的故事...',
+                image: './img/Mr.Zhang.png',
+                text: 'Mr.Zhang',
+                link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E5%BC%A0%E8%80%81%E5%B8%88%E7%9A%84%E7%8B%AC%E5%AE%B6%E9%87%87%E8%AE%BF'
+            },
+            {
+                date: '03/29',
+                year: '2023',
+                title: '杨辅导员的访问',
+                desc: '我们此次采访杨辅导员的主要目的是为了让学生们可以更好的了解辅导员的工作。首先来介绍一下我们杨辅导员的背景, 杨辅导员出生于中国也在中国长大, 大概在26岁的时候决定要来美国读书读研究生。她在中国一直读到大学本科毕业, 当时所读的专业是经济学, 所以她毕业之后按部就班的去银行工作了一年。全职工作...',
+                image: './img/Ms.Yang.png',
+                text: 'Ms.Yang',
+                link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/fdr-high-school-%E6%9D%A8%E8%BE%85%E5%AF%BC%E5%91%98%E7%9A%84%E8%AE%BF%E9%97%AE'
+            }
+        ];
+
+        // 获取DOM元素
+        const dateText = document.getElementById('dateText');
+        const yearText = document.getElementById('yearText');
+        const newsTitle = document.getElementById('newsTitle');
+        const newsDesc = document.getElementById('newsDesc');
+        const mainImage = document.getElementById('mainImage');
+        const bgImage = document.getElementById('bgImage');
+        const bannerText = document.getElementById('bannerText');
+        const newsContent = document.getElementById('newsContent');
+        const bannerMain = document.getElementById('bannerMain');
+        const pageBtns = document.querySelectorAll('.page-btn');
+        const readMoreBtn = document.querySelector('.read-more');
+
+        // 切换新闻内容
+        const bannerBg = document.querySelector('.banner-bg');
+        
+        function switchNews(index) {
+            const news = newsData[index];
+            if (!news) return;
+
+            // 添加淡出效果
+            newsContent.classList.add('fade-out');
+            bannerMain.classList.add('fade-out');
+            if (bannerBg) {
+                bannerBg.classList.add('fade-out');
+            }
+
+            setTimeout(() => {
+                // 更新内容
+                dateText.textContent = news.date;
+                yearText.textContent = news.year;
+                newsTitle.textContent = news.title;
+                newsDesc.textContent = news.desc;
+                bannerText.textContent = news.text;
+                
+                // 更新图片
+                mainImage.src = news.image;
+                bgImage.src = news.image;
+                
+                // 更新 read more 链接
+                if (readMoreBtn && news.link) {
+                    readMoreBtn.href = news.link;
+                }
+
+                // 移除淡出效果，添加淡入
+                newsContent.classList.remove('fade-out');
+                bannerMain.classList.remove('fade-out');
+                if (bannerBg) {
+                    bannerBg.classList.remove('fade-out');
+                }
+            }, 250);
+        }
+
+        // 分页交互
+        pageBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const pageIndex = parseInt(btn.getAttribute('data-page'));
+                pageBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                switchNews(pageIndex);
+            });
+        });
+
+        // 确保背景图片和主图使用相同的图片源
+        if (mainImage && bgImage) {
+            mainImage.addEventListener('load', () => {
+                if (bgImage.src !== mainImage.src) {
+                    bgImage.src = mainImage.src;
+                }
+            });
+        }
+
+        // 鼠标移动时背景图片跟随效果
+        const bannerBgImg = document.querySelector('.banner-bg-img');
+        
+        if (bannerMain) {
+            bannerMain.addEventListener('mousemove', (e) => {
+                const rect = bannerMain.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+                const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+                
+                if (bannerBgImg) {
+                    bannerBgImg.style.transform = `translate(${x}px, ${y}px) scale(1.15)`;
+                }
+            });
+
+            bannerMain.addEventListener('mouseleave', () => {
+                if (bannerBgImg) {
+                    bannerBgImg.style.transform = 'translate(0, 0) scale(1.15)';
+                }
+            });
+        }
+    </script>
+    <script src="12.js"></script>
+</body>
+</html>
