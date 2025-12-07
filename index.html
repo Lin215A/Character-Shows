@@ -460,29 +460,30 @@
         <!-- 左侧文字区域 -->
         <div class="news-content" id="newsContent">
             <div class="news-date" id="newsDate">
-                <div class="date" id="dateText">04/01</div>
-                <div class="year" id="yearText">2023</div>
+                <div class="date" id="dateText">12/04</div>
+                <div class="year" id="yearText">2025</div>
             </div>
 
-            <div class="news-title" id="newsTitle">MsQadri和Mr.Stephens</div>
+            <div class="news-title" id="newsTitle">Ms.Wei</div>
 
             <div class="news-desc" id="newsDesc">
-                三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访,了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...
+                十一月二十三日的时候，我和宋婕同学采用了"书面采访"的方式访问了我们的历史老师-魏老师，希望大家能通过这篇采访能更了解魏老师^-^
             </div>
 
-            <a href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C" target="_blank" rel="noopener noreferrer" class="read-more">阅读更多</a>
+            <a href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E5%BE%88%E6%9C%89%E6%B4%BB%E5%8A%9B%E7%9A%84-%E5%8E%86%E5%8F%B2%E9%AD%8F%E8%80%81%E5%B8%88" target="_blank" rel="noopener noreferrer" class="read-more">阅读更多</a>
 
             <!-- 分页 -->
             <div class="pagination">
                 <div class="page-btn active" data-page="0">1</div>
                 <div class="page-btn" data-page="1">2</div>
                 <div class="page-btn" data-page="2">3</div>
+                <div class="page-btn" data-page="3">4</div>
             </div>
         </div>
 
         <!-- 右侧图片区域 -->
         <a class="news-banner" id="bannerlink"
-            href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C" target="_blank" rel="noopener noreferrer">
+            href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E5%BE%88%E6%9C%89%E6%B4%BB%E5%8A%9B%E7%9A%84-%E5%8E%86%E5%8F%B2%E9%AD%8F%E8%80%81%E5%B8%88" target="_blank" rel="noopener noreferrer">
             <!-- 背景虚化图片层 -->
             <div class="banner-bg">
                 <img src="img/Ms.Qadri-and-Mr.Stephens.png" alt="背景" class="banner-bg-img" id="bgImage">
@@ -490,8 +491,8 @@
 
             <!-- 主图 -->
             <div class="banner-main" id="bannerMain">
-                <img src="img/Ms.Qadri-and-Mr.Stephens.png" alt="新闻图片" id="mainImage">
-                <div class="banner-text" id="bannerText">Ms.Qadri<br>and<br>Mr.Stephens</div>
+                <img src="img/Ms.Wei.png" alt="新闻图片" id="mainImage">
+                <div class="banner-text" id="bannerText">Ms.Wei</div>
             </div>
         </a>
         </div>
@@ -501,10 +502,19 @@
         // 新闻数据
         const newsData = [
             {
+                date: '12/04',
+                year: '2025',
+                title: '充满活力的魏老师',
+                desc: '十一月二十三日的时候，我和宋婕同学采用了"书面采访"的方式访问了我们的历史老师-魏老师，希望大家能通过这篇采访能更了解魏老师^-^',
+                image: './img/Ms.Wei.png',
+                text: 'Ms.Wei',
+                link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E5%BE%88%E6%9C%89%E6%B4%BB%E5%8A%9B%E7%9A%84-%E5%8E%86%E5%8F%B2%E9%AD%8F%E8%80%81%E5%B8%88'
+            },
+            {
                 date: '04/01',
                 year: '2023',
                 title: 'Ms.Qadri和Mr.Stephens',
-                desc: '三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访，了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...',
+                desc: '三月三十日, 我们向学校(FDR)的科学系生物班老师Ms.Qadri和Mr.Stephens进行了采访,了解他们上课时的教学方法, 也讨论了他们是如何给学生营造出良好的氛围和环境等问题， 让大家更了解他们的工作...',
                 image: './img/Ms.Qadri-and-Mr.Stephens.png',
                 text: 'Ms.Qadri \n and \n Mr.Stephens',
                 link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E4%BA%86%E8%A7%A3fdr%E4%B8%A4%E4%BD%8D%E7%A7%91%E5%AD%A6%E8%80%81%E5%B8%88%E8%83%8C%E5%90%8E%E7%9A%84%E5%B7%A5%E4%BD%9C'
