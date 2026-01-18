@@ -18,11 +18,11 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background: #f0f2f5; /* 外部背景色 */
         }
 
         body {
             font-family: 'ZCOOL KuaiLe', "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-            background:transparent !important;  /* 设置背景透明以适应外部背景 */ 
             color: #242933;
             display: flex;
             align-items: center;
@@ -32,8 +32,9 @@
         }
 
         .container {
-            max-width: 100%;
-            width: 100%;
+            max-width: 1400px;
+            width: 1400px; /* 固定宽度配合缩放脚本 */
+            height: 800px; /* 固定高度配合缩放脚本 */
             margin: 0 auto;
             padding: 40px 80px;
             display: flex;
@@ -41,7 +42,9 @@
             align-items: center;
             gap: 80px;
             position: relative;
-            box-sizing: border-box;
+            background: white; /* 容器背景 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border-radius: 20px;
         }
 
         /* 左侧文字区域 */
@@ -55,7 +58,7 @@
 
         .news-date {
             margin-bottom: 50px;
-            transition: opacity 0.5s;
+            transition: opacity 0.4s;
         }
 
         .news-date .date {
@@ -79,7 +82,7 @@
             margin-bottom: 25px;
             line-height: 1.4;
             cursor: pointer;
-            transition: color 0.3s, opacity 0.5s;
+            transition: color 0.3s, opacity 0.4s;
         }
 
         .news-title:hover {
@@ -87,26 +90,25 @@
         }
 
         .news-desc {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.8;
             color: #676b73;
             margin-bottom: 35px;
-            height: 140px;
+            height: 160px;
             overflow: hidden;
-            transition: opacity 0.5s;
+            transition: opacity 0.4s;
         }
         
-        .news-content.fade-out .news-date,
-        .news-content.fade-out .news-title,
-        .news-content.fade-out .news-desc {
-            opacity: 0;
+        /* 动画过渡 */
+        .fade-out {
+            opacity: 0 !important;
         }
 
         .read-more {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             color: #3778e5;
             text-transform: uppercase;
@@ -114,22 +116,20 @@
             margin-bottom: 50px;
             position: relative;
             padding-bottom: 4px;
-        }
-
-        .read-more::after {
-            content: '→→→';
-            font-size: 10px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
         }
 
         .read-more:hover {
-            text-decoration: underline;
+            border-bottom-color: #3778e5;
         }
 
-        /* 分页 */
+        /* 分页样式 */
         .pagination {
             display: flex;
             gap: 15px;
             margin-top: 40px;
+            align-items: center;
         }
 
         .page-btn {
@@ -137,20 +137,35 @@
             height: 50px;
             border: 1px solid #c9d0d8;
             background: #f8f9fb;
-            color: #dee1e6;
+            color: #a0a7b1;
             font-size: 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 8px;
         }
 
-        .page-btn:hover,
+        .page-btn:hover {
+            color: #3778e5;
+            border-color: #3778e5;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(55, 120, 229, 0.1);
+        }
+
         .page-btn.active {
-            color: #676b73;
-            border-color: #676b73;
+            color: white;
+            background: #3778e5;
+            border-color: #3778e5;
             transform: scale(1.1);
+        }
+
+        .page-btn.nav-btn {
+            background: #242933;
+            color: white;
+            border: none;
+            font-weight: bold;
         }
 
         /* 右侧图片区域 */
@@ -158,297 +173,79 @@
             flex: 1;
             position: relative;
             height: 500px;
-            max-width: 100%;
-            min-width: 0;
+            display: block;
+            text-decoration: none;
         }
 
-        /* 背景虚化图片层 */
         .banner-bg {
             position: absolute;
-            right: 0;
-            bottom: -80px;
+            right: -20px;
+            bottom: -60px;
             width: 620px;
-            height: 672px;
+            height: 600px;
             overflow: hidden;
             z-index: 1;
+            transition: opacity 0.5s;
         }
 
         .banner-bg-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: blur(2px) brightness(1.1);
-            opacity: 0.8;
-            transform: scale(1.15);
-            transition: opacity 0.5s, transform 0.5s;
-        }
-
-        /* 斜线装饰层 - 从右上往左下（-45度） */
-        .banner-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                -45deg,
-                transparent,
-                transparent 0 4px,
-                rgb(0, 0, 0, 0.7) 6px
-            );
-            z-index: 2;
-            pointer-events: none;
+            filter: blur(8px) brightness(1.1);
             opacity: 0.4;
+            transform: scale(1.1);
         }
-        
-    
 
-        /* 主图 */
         .banner-main {
             position: relative;
             z-index: 3;
             width: 620px;
             height: 500px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transition: opacity 0.5s;
         }
 
         .banner-main img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s, opacity 0.5s;
+            transition: transform 0.8s;
         }
 
         .banner-main:hover img {
             transform: scale(1.05);
         }
 
-        /* 图片上的文字覆盖 */
         .banner-text {
             position: absolute;
             bottom: 40px;
-            left: 50%;
-            transform: translate(-50%);
+            left: 0;
+            right: 0;
+            text-align: center;
             z-index: 4;
             color: white;
             font-size: 56px;
             font-weight: bold;
-            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7);
-            white-space: nowrap;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
             letter-spacing: 4px;
-            transition: opacity 0.5s;
-        }
-        
-        .banner-main.fade-out .banner-text,
-        .banner-main.fade-out img {
-            opacity: 0;
-        }
-        
-        .banner-bg.fade-out .banner-bg-img {
-            opacity: 0;
+            pointer-events: none;
         }
 
         /* 垂直标语 */
         .vertical-slogan {
             position: absolute;
-            left: -100px;
+            left: 30px;
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
-            font-size: 12px;
+            font-size: 14px;
             color: #dee1e6;
             letter-spacing: 8px;
             white-space: nowrap;
             z-index: 1;
-            transition: all 0.3s;
-        }
-        
-        @media (max-width: 1000px) {
-            .vertical-slogan {
-                left: -60px;
-                font-size: 10px;
-                letter-spacing: 6px;
-            }
-        }
-        
-        @media (max-width: 800px) {
-            .vertical-slogan {
-                left: -50px;
-                font-size: 9px;
-                letter-spacing: 4px;
-            }
-        }
-
-        /* 响应式 */
-        @media (max-width: 1400px) {
-            .container {
-                padding: 40px 60px;
-                gap: 60px;
-            }
-            
-            .news-content {
-                min-width: 400px;
-                max-width: 480px;
-            }
-            
-            .news-banner {
-                max-width: 600px;
-                height: 400px;
-            }
-            
-            .banner-main {
-                width: 500px;
-                height: 400px;
-            }
-            
-            .banner-bg {
-                width: 500px;
-                height: 540px;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                padding: 35px 50px;
-                gap: 50px;
-            }
-            
-            .news-content {
-                min-width: 350px;
-                max-width: 420px;
-            }
-            
-            .news-date .date {
-                font-size: 60px;
-            }
-            
-            .news-title {
-                font-size: 24px;
-            }
-            
-            .news-banner {
-                max-width: 500px;
-                height: 360px;
-            }
-            
-            .banner-main {
-                width: 450px;
-                height: 360px;
-            }
-            
-            .banner-bg {
-                width: 450px;
-                height: 490px;
-            }
-        }
-        
-        @media (max-width: 1000px) {
-            .container {
-                padding: 30px 40px;
-                gap: 40px;
-            }
-            
-            .news-content {
-                min-width: 300px;
-                max-width: 360px;
-            }
-            
-            .news-date .date {
-                font-size: 50px;
-            }
-            
-            .news-title {
-                font-size: 20px;
-            }
-            
-            .news-desc {
-                font-size: 12px;
-                height: 100px;
-            }
-            
-            .news-banner {
-                max-width: 400px;
-                height: 300px;
-            }
-            
-            .banner-main {
-                width: 380px;
-                height: 300px;
-            }
-            
-            .banner-bg {
-                width: 380px;
-                height: 410px;
-                bottom: -60px;
-            }
-            
-            .banner-text {
-                font-size: 40px;
-                text-align: center;
-            }
-        }
-        
-        @media (max-width: 800px) {
-            .container {
-                padding: 30px 35px;
-                gap: 35px;
-            }
-            
-            .news-content {
-                min-width: 250px;
-                max-width: 300px;
-            }
-            
-            .news-date .date {
-                font-size: 40px;
-            }
-            
-            .news-date .year {
-                font-size: 18px;
-            }
-            
-            .news-title {
-                font-size: 18px;
-                margin-bottom: 15px;
-            }
-            
-            .news-desc {
-                font-size: 11px;
-                height: 90px;
-                margin-bottom: 20px;
-            }
-            
-            .read-more {
-                font-size: 10px;
-                margin-bottom: 30px;
-            }
-            
-            .page-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            
-            .news-banner {
-                max-width: 350px;
-                height: 260px;
-            }
-            
-            .banner-main {
-                width: 320px;
-                height: 260px;
-            }
-            
-            .banner-bg {
-                width: 320px;
-                height: 350px;
-                bottom: -50px;
-            }
-            
-            .banner-text {
-                font-size: 32px;
-            }
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -459,48 +256,30 @@
 
         <!-- 左侧文字区域 -->
         <div class="news-content" id="newsContent">
-            <div class="news-date" id="newsDate">
-                <div class="date" id="dateText">01/13</div>
-                <div class="year" id="yearText">2026</div>
+            <div class="news-date">
+                <div class="date" id="dateText">--/--</div>
+                <div class="year" id="yearText">----</div>
             </div>
 
-            <div class="news-title" id="newsTitle">喜欢与学生有真实交流的杨老师</div>
+            <h1 class="news-title" id="newsTitle">加载中...</h1>
 
-            <div class="news-desc" id="newsDesc">
-               我们年轻有为的杨老师，是位爱好古典文学的中文老师。他把那些文言故事壹壹背下来。上学年，同学们有幸在梁老师的班上亲眼目睹杨老师铿锵有力地背诵初唐大才子王勃的千古骈文《滕王阁序》。今天，我以书信的方式来跟杨老师做一个采访。
-            </div>
+            <div class="news-desc" id="newsDesc">正在获取精彩采访内容...</div>
 
-            <a href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/fdr%E7%9A%84%E8%80%81%E5%B8%88%E4%BB%AC/%E5%96%9C%E6%AC%A2%E4%B8%8E%E5%AD%A6%E7%94%9F%E6%9C%89%E7%9C%9F%E5%AE%9E%E4%BA%A4%E6%B5%81%E7%9A%84%E6%9D%A8%E8%80%81%E5%B8%88" target="_blank" rel="noopener noreferrer" class="read-more">阅读更多</a>
+            <a href="#" target="_blank" id="readMoreBtn" class="read-more">阅读更多 →</a>
 
-            <!-- 分页 -->
-            <div class="pagination">
-                <div class="page-btn active" data-page="0">1</div>
-                <div class="page-btn" data-page="1">2</div>
-                <div class="page-btn" data-page="2">3</div>
-                <div class="page-btn" data-page="3">4</div>
-                <div class="page-btn" data-page="4">5</div>
-                <div class="page-btn" data-page="5">6</div>
-                <div class="page-btn" data-page="6">7</div>
-                <div class="page-btn" data-page="7">8</div>
-   
-            </div>
+            <div class="pagination" id="pagination"></div>
         </div>
 
-        <!-- 右侧图片区域 -->
-        <a class="news-banner" id="bannerlink"
-            href="https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/fdr%E7%9A%84%E8%80%81%E5%B8%88%E4%BB%AC/%E5%96%9C%E6%AC%A2%E4%B8%8E%E5%AD%A6%E7%94%9F%E6%9C%89%E7%9C%9F%E5%AE%9E%E4%BA%A4%E6%B5%81%E7%9A%84%E6%9D%A8%E8%80%81%E5%B8%88" target="_blank" rel="noopener noreferrer">
-            <!-- 背景虚化图片层 -->
-            <div class="banner-bg">
-                <img src="img/Mr.Yang.png" alt="背景" class="banner-bg-img" id="bgImage">
+        <a class="news-banner" id="bannerLink" href="#" target="_blank">
+            <div class="banner-bg" id="bannerBg">
+                <img src="" alt="背景" class="banner-bg-img" id="bgImage">
             </div>
 
-            <!-- 主图 -->
             <div class="banner-main" id="bannerMain">
-                <img src="img/Mr.Yang.png" alt="新闻图片" id="mainImage">
-                <div class="banner-text" id="bannerText">Mr.Yang</div>
+                <img src="" alt="老师照片" id="mainImage">
+                <div class="banner-text" id="bannerText">Teacher</div>
             </div>
         </a>
-        </div>
     </div>
 
     <script>
@@ -580,99 +359,131 @@
             }
         ];
 
-        // 获取DOM元素
-        const dateText = document.getElementById('dateText');
-        const yearText = document.getElementById('yearText');
-        const newsTitle = document.getElementById('newsTitle');
-        const newsDesc = document.getElementById('newsDesc');
-        const mainImage = document.getElementById('mainImage');
-        const bgImage = document.getElementById('bgImage');
-        const bannerText = document.getElementById('bannerText');
-        const newsContent = document.getElementById('newsContent');
-        const bannerMain = document.getElementById('bannerMain');
-        const pageBtns = document.querySelectorAll('.page-btn');
-        const readMoreBtn = document.querySelector('.read-more');
 
-        // 切换新闻内容
-        const bannerBg = document.querySelector('.banner-bg');
-        
-        function switchNews(index) {
-            const news = newsData[index];
-            if (!news) return;
+        // 2. 状态变量
+        let currentGroup = 0; // 0 代表 1-4, 1 代表 5-8
+        let activeIndex = 0;
+        let isInitial = true; 
+        const itemsPerGroup = 4;
 
-            // 添加淡出效果
-            newsContent.classList.add('fade-out');
-            bannerMain.classList.add('fade-out');
-            if (bannerBg) {
-                bannerBg.classList.add('fade-out');
+        // 3. 核心函数：切换新闻
+        function switchNews(index, skipAnim = false) {
+            const data = newsData[index];
+            if (!data) return;
+
+            activeIndex = index;
+
+            const updateContent = () => {
+                document.getElementById("dateText").textContent = data.date;
+                document.getElementById("yearText").textContent = data.year;
+                document.getElementById("newsTitle").textContent = data.title;
+                document.getElementById("newsDesc").textContent = data.desc;
+                document.getElementById("bannerText").innerText = data.text;
+                document.getElementById("readMoreBtn").href = data.link;
+                document.getElementById("bannerLink").href = data.link;
+
+                // 更新图片
+                document.getElementById("mainImage").src = data.image;
+                document.getElementById("bgImage").src = data.image;
+
+                // 移除淡出类（触发淡入动画）
+                document.getElementById('newsContent').classList.remove('fade-out');
+                document.getElementById('bannerMain').classList.remove('fade-out');
+                document.getElementById('bannerBg').classList.remove('fade-out');
+                
+                // 重新渲染分页以更新高亮
+                renderPagination();
+            };
+
+            if (skipAnim) {
+                updateContent();
+            } else {
+                // 用户点击后，取消初始状态，开启高亮及对应组数显示
+                isInitial = false; 
+                document.getElementById('newsContent').classList.add('fade-out');
+                document.getElementById('bannerMain').classList.add('fade-out');
+                document.getElementById('bannerBg').classList.add('fade-out');
+                setTimeout(updateContent, 300);
+            }
+        }
+
+        // 4. 核心函数：渲染分页按钮
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            container.innerHTML = '';
+
+            const startIdx = currentGroup * itemsPerGroup;
+            const endIdx = startIdx + itemsPerGroup;
+
+            for (let i = startIdx; i < endIdx && i < newsData.length; i++) {
+                const btn = document.createElement('div');
+                // 只有当不是初始状态且索引匹配时，才高亮
+                const isActive = !isInitial && i === activeIndex;
+                btn.className = `page-btn ${isActive ? 'active' : ''}`;
+                btn.textContent = i + 1;
+                btn.onclick = () => {
+                    isInitial = false; // 点击数字按钮取消初始状态
+                    switchNews(i);
+                };
+                container.appendChild(btn);
             }
 
-            setTimeout(() => {
-                // 更新内容
-                dateText.textContent = news.date;
-                yearText.textContent = news.year;
-                newsTitle.textContent = news.title;
-                newsDesc.textContent = news.desc;
-                bannerText.textContent = news.text;
-                
-                // 更新图片
-                mainImage.src = news.image;
-                bgImage.src = news.image;
-                
-                // 更新 read more 链接
-                if (readMoreBtn && news.link) {
-                    readMoreBtn.href = news.link;
-                }
-
-                // 移除淡出效果，添加淡入
-                newsContent.classList.remove('fade-out');
-                bannerMain.classList.remove('fade-out');
-                if (bannerBg) {
-                    bannerBg.classList.remove('fade-out');
-                }
-            }, 250);
+            // 渲染切换按钮
+            const navBtn = document.createElement('div');
+            navBtn.className = 'page-btn nav-btn';
+            
+            // 如果在第一组，显示 > 进入下一组；如果在第二组，显示 < 返回上一组
+            if (currentGroup === 0) {
+                navBtn.textContent = '>';
+                navBtn.onclick = () => {
+                    isInitial = false; // 切换组视为手动操作，高亮会显示
+                    currentGroup = 1;
+                    renderPagination();
+                };
+            } else {
+                navBtn.textContent = '<';
+                navBtn.onclick = () => {
+                    isInitial = false; 
+                    currentGroup = 0;
+                    renderPagination();
+                };
+            }
+            container.appendChild(navBtn);
         }
 
-        // 分页交互
-        pageBtns.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const pageIndex = parseInt(btn.getAttribute('data-page'));
-                pageBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                switchNews(pageIndex);
-            });
-        });
+        // 5. 页面自动缩放脚本 (您的原有逻辑)
+        const getResizPageRate = () => {
+            const container = document.querySelector('.container');
+            if (!container) return;
 
-        // 确保背景图片和主图使用相同的图片源
-        if (mainImage && bgImage) {
-            mainImage.addEventListener('load', () => {
-                if (bgImage.src !== mainImage.src) {
-                    bgImage.src = mainImage.src;
-                }
-            });
-        }
+            const containerWidth = 1400; // 设计宽度
+            const containerHeight = 800; // 设计高度
 
-        // 鼠标移动时背景图片跟随效果
-        const bannerBgImg = document.querySelector('.banner-bg-img');
-        
-        if (bannerMain) {
-            bannerMain.addEventListener('mousemove', (e) => {
-                const rect = bannerMain.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
-                const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
-                
-                if (bannerBgImg) {
-                    bannerBgImg.style.transform = `translate(${x}px, ${y}px) scale(1.15)`;
-                }
-            });
+            const rate = Math.min(
+                window.innerWidth / containerWidth,
+                window.innerHeight / containerHeight
+            );
 
-            bannerMain.addEventListener('mouseleave', () => {
-                if (bannerBgImg) {
-                    bannerBgImg.style.transform = 'translate(0, 0) scale(1.15)';
-                }
-            });
-        }
+            container.style.position = 'absolute';
+            container.style.left = '50%';
+            container.style.top = '50%';
+            container.style.transform = `translate(-50%, -50%) scale(${rate})`;
+            container.style.transformOrigin = 'center center';
+        };
+
+        // 6. 初始化
+        window.onload = () => {
+            isInitial = true; 
+            // 默认显示第一组 (1-4)
+            currentGroup = 0; 
+            
+            // 随机加载内容
+            const randomIndex = Math.floor(Math.random() * newsData.length);
+            switchNews(randomIndex, true); 
+            getResizPageRate();
+        };
+
+        window.addEventListener('resize', getResizPageRate);
     </script>
-    <script src="12.js"></script>
 </body>
 </html>
