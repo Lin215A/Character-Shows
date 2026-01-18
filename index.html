@@ -669,25 +669,7 @@
             }
         }
 
-        // 5. 页面自动缩放脚本 (您的原有逻辑)
-        const getResizPageRate = () => {
-            const container = document.querySelector('.container');
-            if (!container) return;
 
-            const containerWidth = 1400; // 设计宽度
-            const containerHeight = 800; // 设计高度
-
-            const rate = Math.min(
-                window.innerWidth / containerWidth,
-                window.innerHeight / containerHeight
-            );
-
-            container.style.position = 'absolute';
-            container.style.left = '50%';
-            container.style.top = '50%';
-            container.style.transform = `translate(-50%, -50%) scale(${rate})`;
-            container.style.transformOrigin = 'center center';
-        };
 
         // 6. 初始化
         window.onload = () => {
