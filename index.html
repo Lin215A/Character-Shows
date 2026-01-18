@@ -263,7 +263,7 @@
 
             <h1 class="news-title" id="newsTitle">加载中...</h1>
 
-            <div class="news-desc" id="newsDesc">正在获取精彩采访内容...</div>
+            <div class="news-desc" id="newsDesc">正在随机获取一位的精彩采访内容...</div>
 
             <a href="#" target="_blank" id="readMoreBtn" class="read-more">阅读更多 →</a>
 
@@ -285,6 +285,15 @@
     <script>
         // 新闻数据
         const newsData = [
+            {
+                date: '01/16',
+                year: '2026',
+                title: 'FDR高中,在时光缝隙里穿梭的人----邹司阳(Allen)',
+                desc: '我十分荣幸并且忐忑地采访了F D R学生大使-----邹司阳（Allen）。他作为12年级的学长，同时身上兼具乐于助人的良好品质，这次的采访目的不仅为了给新移民学生语言上，学业上的建议，如何融入这所高中，而且为需要面临大学申请季的学生提出珍贵的建议（tips）通过这次采访，从他的语言谈吐可以准确的看出邹司阳（Allen）的礼貌，是个极好的人。同时，我也希望这场采访，能给你质的启发，而且你注定前程似锦，一帆风顺。',
+                image: './img/Allen.jpg',
+                text: '邹司阳',
+                link: 'https://sites.google.com/schools.nyc.gov/yiwuyishi-chinese-website/fdr/%E5%AD%A6%E7%94%9F%E9%87%87%E8%AE%BF/fdr%E9%AB%98%E4%B8%AD%E5%9C%A8%E6%97%B6%E5%85%89%E7%BC%9D%E9%9A%99%E9%87%8C%E7%A9%BF%E6%A2%AD%E7%9A%84%E4%BA%BA-%E9%82%B9%E5%8F%B8%E9%98%B3allen'
+            },
             {
                 date: '01/13',
                 year: '2026',
@@ -412,43 +421,47 @@
             const container = document.getElementById('pagination');
             container.innerHTML = '';
 
+            // 1. 添加“上一组”按钮 (只有不在第0组时显示)
+            if (currentGroup > 0) {
+                const prevBtn = document.createElement('div');
+                prevBtn.className = 'page-btn nav-btn';
+                prevBtn.textContent = '<';
+                prevBtn.onclick = () => {
+                    isInitial = false; 
+                    currentGroup--;
+                    renderPagination();
+                };
+                container.appendChild(prevBtn);
+            }
+
+            // 2. 添加数字按钮
             const startIdx = currentGroup * itemsPerGroup;
             const endIdx = startIdx + itemsPerGroup;
 
             for (let i = startIdx; i < endIdx && i < newsData.length; i++) {
                 const btn = document.createElement('div');
-                // 只有当不是初始状态且索引匹配时，才高亮
                 const isActive = !isInitial && i === activeIndex;
                 btn.className = `page-btn ${isActive ? 'active' : ''}`;
                 btn.textContent = i + 1;
                 btn.onclick = () => {
-                    isInitial = false; // 点击数字按钮取消初始状态
+                    isInitial = false; 
                     switchNews(i);
                 };
                 container.appendChild(btn);
             }
 
-            // 渲染切换按钮
-            const navBtn = document.createElement('div');
-            navBtn.className = 'page-btn nav-btn';
-            
-            // 如果在第一组，显示 > 进入下一组；如果在第二组，显示 < 返回上一组
-            if (currentGroup === 0) {
-                navBtn.textContent = '>';
-                navBtn.onclick = () => {
-                    isInitial = false; // 切换组视为手动操作，高亮会显示
-                    currentGroup = 1;
-                    renderPagination();
-                };
-            } else {
-                navBtn.textContent = '<';
-                navBtn.onclick = () => {
+            // 3. 添加“下一组”按钮 (只有后面还有数据时显示)
+            if (endIdx < newsData.length) {
+                const nextBtn = document.createElement('div');
+                nextBtn.className = 'page-btn nav-btn';
+                nextBtn.textContent = '>';
+                nextBtn.onclick = () => {
                     isInitial = false; 
-                    currentGroup = 0;
+                    currentGroup++;
                     renderPagination();
                 };
+                container.appendChild(nextBtn);
             }
-            container.appendChild(navBtn);
         }
 
         // 5. 页面自动缩放脚本 (您的原有逻辑)
