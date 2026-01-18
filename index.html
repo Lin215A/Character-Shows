@@ -18,11 +18,11 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: #f0f2f5; /* 外部背景色 */
         }
 
         body {
             font-family: 'ZCOOL KuaiLe', "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+            background:transparent !important;  /* 设置背景透明以适应外部背景 */ 
             color: #242933;
             display: flex;
             align-items: center;
@@ -41,9 +41,7 @@
             align-items: center;
             gap: 80px;
             position: relative;
-            background: white; /* 容器背景 */
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            border-radius: 20px;
+            box-sizing: border-box;
         }
 
         /* 左侧文字区域 */
